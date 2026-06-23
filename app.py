@@ -44,9 +44,10 @@ def load_results():
 
 @st.cache_data
 def get_lightcurve_data(filepath):
-    # Extract filename to avoid absolute path issues across different OS/environments
-    filename = Path(filepath).name
+    # Extract filename across both Windows and Linux OS by splitting manually
+    filename = str(filepath).split("\\")[-1].split("/")[-1]
     path = config.PROCESSED_DATA_DIR / filename
+
     if not path.exists():
         # Fallback to absolute path just in case
         path = Path(filepath)
