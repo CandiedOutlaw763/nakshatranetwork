@@ -42,7 +42,7 @@ def load_results():
             return pickle.load(f)
     return []
 
-@st.cache_data
+# Temporarily removed cache to force execution and error output
 def get_lightcurve_data(filepath):
     # Extract filename across both Windows and Linux OS by splitting manually
     filename = str(filepath).split("\\")[-1].split("/")[-1]
