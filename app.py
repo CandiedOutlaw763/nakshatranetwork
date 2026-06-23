@@ -44,9 +44,14 @@ def load_results():
 
 @st.cache_data
 def get_lightcurve_data(filepath):
-    path = Path(filepath)
+    # Extract filename to avoid absolute path issues across different OS/environments
+    filename = Path(filepath).name
+    path = config.PROCESSED_DATA_DIR / filename
     if not path.exists():
-        return None, None
+        # Fallback to absolute path just in case
+        path = Path(filepath)
+        if not path.exists():
+            return None, None
     try:
         with open(path, "rb") as f:
             data = pickle.load(f)
