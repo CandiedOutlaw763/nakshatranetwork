@@ -50,14 +50,17 @@ def get_lightcurve_data(filepath):
 
     if not path.exists():
         # Fallback to absolute path just in case
-        path = Path(filepath)
-        if not path.exists():
+        path2 = Path(filepath)
+        if not path2.exists():
+            st.error(f"File not found. Looked for {path} and {path2}")
             return None, None
+        path = path2
     try:
         with open(path, "rb") as f:
             data = pickle.load(f)
         return data["time"], data["flux"]
-    except Exception:
+    except Exception as e:
+        st.error(f"Error loading {filename}: {str(e)}")
         return None, None
 
 @st.cache_data
